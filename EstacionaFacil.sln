@@ -10,6 +10,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Infra", "Infra\Infra.csproj
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "3 - Domain", "3 - Domain", "{57EBE133-3F15-485A-91E3-F1CB429E03A6}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Domain", "Domain\Domain.csproj", "{7528EAE7-BE6D-4EA2-BE4B-7949AB950A77}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -18,6 +20,7 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{7D1A39D0-FA00-499E-AACC-5A2923A5B3F9} = {95DE92E0-2818-488D-863F-2EE47943EFD7}
 		{444BF8B3-14D2-444B-AC3C-83EB56A52A64} = {D9823B4E-6E47-4258-B098-036D826D44BC}
+		{7528EAE7-BE6D-4EA2-BE4B-7949AB950A77} = {57EBE133-3F15-485A-91E3-F1CB429E03A6}
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{7D1A39D0-FA00-499E-AACC-5A2923A5B3F9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
@@ -28,5 +31,9 @@ Global
 		{444BF8B3-14D2-444B-AC3C-83EB56A52A64}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{444BF8B3-14D2-444B-AC3C-83EB56A52A64}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{444BF8B3-14D2-444B-AC3C-83EB56A52A64}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7528EAE7-BE6D-4EA2-BE4B-7949AB950A77}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7528EAE7-BE6D-4EA2-BE4B-7949AB950A77}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7528EAE7-BE6D-4EA2-BE4B-7949AB950A77}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7528EAE7-BE6D-4EA2-BE4B-7949AB950A77}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
