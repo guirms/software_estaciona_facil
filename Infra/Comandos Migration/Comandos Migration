@@ -1,0 +1,2 @@
+﻿dotnet ef migrations add AddUsuario --startup-project ../Web/
+dotnet ef database update --startup-project ../Web/
