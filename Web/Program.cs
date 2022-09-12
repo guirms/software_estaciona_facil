@@ -1,3 +1,4 @@
+using CrossCuting.Native_Injector;
 using Infra.Context;
 using Microsoft.EntityFrameworkCore;
 
@@ -13,6 +14,10 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddDbContext<ConfigContext>(opt => opt.UseSqlServer(configuration.GetConnectionString("EstacionaFacilDb") ?? string.Empty).EnableSensitiveDataLogging());
+builder.Services.AddAutoMapper(typeof(Application.AutoMapper.AutoMapper));
+
+// Dependency Injector
+NativeInjector.RegisterServices(builder.Services);
 
 var app = builder.Build();
 

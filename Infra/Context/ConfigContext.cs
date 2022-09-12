@@ -9,7 +9,7 @@ public class ConfigContext: DbContext
     public ConfigContext(DbContextOptions<ConfigContext> option): base(option)
     {
     }
-
+    
     public DbSet<Usuario>? Usuarios { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
