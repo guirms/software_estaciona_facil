@@ -1,7 +1,7 @@
 ﻿using Application.Interfaces;
 using Application.Services;
-using Infra.Interfaces;
-using Infra.Repositories;
+using Infra.Data.Interfaces;
+using Infra.Data.Repositories;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace CrossCuting.Native_Injector;

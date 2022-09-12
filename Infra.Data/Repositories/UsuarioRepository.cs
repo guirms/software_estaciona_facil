@@ -1,8 +1,8 @@
 ﻿using Domain.Models;
-using Infra.Context;
-using Infra.Interfaces;
+using Infra.Data.Context;
+using Infra.Data.Interfaces;
 
-namespace Infra.Repositories;
+namespace Infra.Data.Repositories;
 
 public class UsuarioRepository: BaseRepository<Usuario>, IUsuarioRepository
 {

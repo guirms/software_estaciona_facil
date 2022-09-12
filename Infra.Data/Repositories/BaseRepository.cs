@@ -1,7 +1,7 @@
-﻿using Infra.Context;
-using Infra.Interfaces;
+﻿using Infra.Data.Context;
+using Infra.Data.Interfaces;
 
-namespace Infra.Repositories;
+namespace Infra.Data.Repositories;
 
 public class BaseRepository<T>: IBaseRepository<T> where T : class
 {

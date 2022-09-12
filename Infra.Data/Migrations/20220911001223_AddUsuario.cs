@@ -2,7 +2,7 @@
 
 #nullable disable
 
-namespace Infra.Migrations
+namespace Infra.Data.Migrations
 {
     /// <inheritdoc />
     public partial class AddUsuario : Migration

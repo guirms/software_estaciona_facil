@@ -1,4 +1,4 @@
-﻿namespace Infra.Interfaces;
+﻿namespace Infra.Data.Interfaces;
 
 public interface IBaseRepository<T>: IDisposable where T: class
 {

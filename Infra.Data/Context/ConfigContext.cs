@@ -1,8 +1,8 @@
 ﻿using Domain.Models;
-using Infra.Mappings.Usuario;
+using Infra.Data.Mappings.Usuario;
 using Microsoft.EntityFrameworkCore;
 
-namespace Infra.Context;
+namespace Infra.Data.Context;
 
 public class ConfigContext: DbContext
 {

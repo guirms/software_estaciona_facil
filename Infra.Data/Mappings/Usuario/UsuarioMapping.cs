@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace Infra.Mappings.Usuario;
+namespace Infra.Data.Mappings.Usuario;
 
 public class UsuarioMapping: IEntityTypeConfiguration<Domain.Models.Usuario>
 {

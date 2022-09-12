@@ -3,7 +3,7 @@ using Application.Objects.Base;
 using Application.Objects.Requests.Usuario;
 using AutoMapper;
 using Domain.Models;
-using Infra.Interfaces;
+using Infra.Data.Interfaces;
 
 namespace Application.Services;
 
