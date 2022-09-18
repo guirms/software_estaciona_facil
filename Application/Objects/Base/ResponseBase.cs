@@ -2,26 +2,15 @@
 
 namespace Application.Objects.Base;
 
-public class ResponseBase<T> where T: class 
+public class ResponseBase
 {
-    public bool Sucesso;
-    public string Mensagem;
-    public T? JsonRetorno;
-    
-    public  ResponseBase(bool sucesso, string mensagem, T? jsonRetorno = default)
-    {
-        Sucesso = sucesso;
-        Mensagem = mensagem;
-        JsonRetorno = jsonRetorno;
-    }
-    
-    public static JsonResult Responder(bool sucesso, string msg, object data)
+    public static JsonResult ResponderController(bool sucessoOperacao, string msg, object dataOperacao)
     {
         return BigJson(new
         {
-            sucesso = sucesso,
+            sucesso = sucessoOperacao,
             mensagem = msg,
-            data = data,
+            data = dataOperacao,
         });
     }
     

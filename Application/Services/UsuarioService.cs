@@ -1,5 +1,4 @@
 ﻿using Application.Interfaces;
-using Application.Objects.Base;
 using Application.Objects.Requests.Usuario;
 using AutoMapper;
 using Domain.Models;
@@ -17,15 +16,12 @@ public class UsuarioService: IUsuarioService
         _usuarioRepository = usuarioRepository;
     }
     
-    public ResponseBase<Usuario> SalvarUsuario(UsuarioRequest usuarioRequest)
+    public UsuarioRequest SalvarUsuario(UsuarioRequest usuarioRequest)
     {
         var lUsuario = _mapper.Map<Usuario>(usuarioRequest);
+        
+        _usuarioRepository.SalvarUsuario(lUsuario, usuarioRequest.UsuarioId);
 
-        if (usuarioRequest.UsuarioId != 0)
-            _usuarioRepository.Update(lUsuario);
-        else
-            _usuarioRepository.Add(lUsuario);
-
-        return new ResponseBase<Usuario>(true, "Cliente salvo com sucesso");
+        return _mapper.Map<UsuarioRequest>(lUsuario);
     }
 }

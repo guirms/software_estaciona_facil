@@ -9,4 +9,13 @@ public class UsuarioRepository: BaseRepository<Usuario>, IUsuarioRepository
     public UsuarioRepository(ConfigContext contexto) : base(contexto)
     {
     }
+    
+    public void SalvarUsuario(Usuario usuarioObj, int usuarioId)
+    {
+        if (usuarioId != 0)
+            Update(usuarioObj);
+        else
+            Add(usuarioObj);
+    }
+    
 }

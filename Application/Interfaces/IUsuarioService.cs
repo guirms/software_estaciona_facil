@@ -6,5 +6,5 @@ namespace Application.Interfaces;
 
 public interface IUsuarioService
 {
-    ResponseBase<Usuario> SalvarUsuario(UsuarioRequest usuarioRequest);
+    UsuarioRequest SalvarUsuario(UsuarioRequest usuarioRequest);
 }

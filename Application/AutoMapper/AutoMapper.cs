@@ -10,7 +10,7 @@ public class AutoMapper: Profile
     {
         #region Cliente
 
-        CreateMap<UsuarioRequest, Usuario>();
+        CreateMap<UsuarioRequest, Usuario>().ReverseMap();
 
         #endregion
     }

@@ -1,9 +1,6 @@
 ﻿using Application.Interfaces;
 using Application.Objects.Base;
 using Application.Objects.Requests.Usuario;
-using Application.Services;
-using AutoMapper;
-using Domain.Models;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Web.Controllers;
@@ -20,10 +17,17 @@ public class UsuarioController: ControllerBase
     }
     
     [HttpPost("SalvarUsuario")]
-    public ResponseBase<Usuario> SalvarUsuario([FromBody] UsuarioRequest usuarioRequest)
+    public JsonResult SalvarUsuario([FromBody] UsuarioRequest usuarioRequest)
     {
-        var salvarUsuario = _usuarioService.SalvarUsuario(usuarioRequest);
-
-        return salvarUsuario;
+        try
+        {
+            var salvarUsuario = _usuarioService.SalvarUsuario(usuarioRequest);
+        
+            return ResponseBase.ResponderController(true, $"Usuário {(salvarUsuario.UsuarioId == 0 ? "inserido" : "alterado")} com sucesso", salvarUsuario);
+        }
+        catch (Exception e)
+        {
+            return ResponseBase.ResponderController(false, "Erro ao salvar usuário", e.Message);
+        }
     }
 }
