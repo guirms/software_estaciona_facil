@@ -1,9 +1,17 @@
 .alinhado-meio {
     height: 500px;
     position: absolute;
+    background-color: white;
     top: 0;
     bottom: 0;
     left: 0;
     right: 0;
     margin: auto;
+}
+
+body {
+    background-image: url("/assets/img/Background-tela-login.jpg");
+    height: 100vh;
+    background-repeat: no-repeat;
+    background-size: cover;
 }
