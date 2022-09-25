@@ -1,6 +1,9 @@
+using System.Text;
 using CrossCuting.Native_Injector;
 using Infra.Data.Context;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -16,6 +19,25 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddDbContext<ConfigContext>(opt => opt.UseSqlServer(configuration.GetConnectionString("EstacionaFacilDb") ?? string.Empty).EnableSensitiveDataLogging());
 builder.Services.AddAutoMapper(typeof(Application.AutoMapper.AutoMapper));
 
+// JWT Authentication
+var key = Encoding.ASCII.GetBytes("SecretJWT123SecretJWT123");
+builder.Services.AddAuthentication(x =>
+{
+    x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+    x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+}).AddJwtBearer(x =>
+{
+    x.RequireHttpsMetadata = false;
+    x.SaveToken = true;
+    x.TokenValidationParameters = new TokenValidationParameters
+    {
+        ValidateIssuerSigningKey = true,
+        IssuerSigningKey = new SymmetricSecurityKey(key),
+        ValidateIssuer = false,
+        ValidateAudience = false
+    };
+});
+
 // Dependency Injector
 NativeInjector.RegisterServices(builder.Services);
 
@@ -30,6 +52,10 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
+app.UseAuthorization();
+
+// JWT Authentication
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();

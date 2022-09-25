@@ -11,6 +11,7 @@ public static class NativeInjector
     public static void RegisterServices(IServiceCollection services)
     {
         services.AddScoped<IUsuarioService, UsuarioService>();
+        services.AddScoped<ITokenService, TokenService>();
         services.AddScoped<IUsuarioRepository, UsuarioRepository>();
     }
 }
