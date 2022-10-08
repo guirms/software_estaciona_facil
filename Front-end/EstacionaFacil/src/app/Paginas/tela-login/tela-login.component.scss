@@ -11,13 +11,13 @@
     box-shadow: 1px 1px 5px rgb(185, 185, 185);
 }
 
-.logo-login {
-    height: 20%;
-}
-
 body {
     background-image: url("/assets/img/Background-tela-login.jpg");
     height: 100vh;
     background-repeat: no-repeat;
     background-size: cover;
+}
+
+.logo-login {
+    height: 35%;
 }
