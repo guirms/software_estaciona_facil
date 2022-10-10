@@ -20,11 +20,9 @@ public class UsuarioService: IUsuarioService
         _tokenService = tokenService;
     }
     
-    public UsuarioResponse SalvarUsuario(UsuarioRequest usuarioRequest)
+    public UsuarioResponse SalvarUsuario(Usuario lUsuario)
     {
-        var lUsuario = _mapper.Map<Usuario>(usuarioRequest);
-        
-        _usuarioRepository.SalvarUsuario(lUsuario, usuarioRequest.UsuarioId);
+        _usuarioRepository.SalvarUsuario(lUsuario, lUsuario.Id);
 
         return _mapper.Map<UsuarioResponse>(lUsuario);
     }

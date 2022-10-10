@@ -26,6 +26,7 @@ public class TokenController: ControllerBase
         try
         {
             var lUsuario = _mapper.Map<Usuario>(tokenRequest);
+            
             var token = _tokenService.GerarToken(lUsuario);
          
             return ResponseBase.ResponderController(true, "Token gerado com sucesso", token);

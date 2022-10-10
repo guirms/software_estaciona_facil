@@ -1,6 +1,8 @@
 ﻿using Application.Interfaces;
 using Application.Objects.Base;
 using Application.Objects.Requests.Usuario;
+using AutoMapper;
+using Domain.Models;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Web.Controllers;
@@ -10,20 +12,28 @@ namespace Web.Controllers;
 public class UsuarioController: ControllerBase
 {
     private readonly IUsuarioService _usuarioService;
-    
-    public UsuarioController(IUsuarioService usuarioService)
+    private readonly ITokenService _tokenService;
+    private readonly IMapper _mapper;
+
+    public UsuarioController(IUsuarioService usuarioService, ITokenService tokenService, IMapper mapper)
     {
         _usuarioService = usuarioService;
+        _tokenService = tokenService;
+        _mapper = mapper;
     }
     
-    [HttpPost("SalvarUsuario")]
-    public JsonResult SalvarUsuario([FromBody] UsuarioRequest usuarioRequest)
+    [HttpPost("CadastrarUsuario")]
+    public JsonResult CadastrarUsuario([FromBody] UsuarioRequest usuarioRequest)
     {
         try
         {
-            var salvarUsuario = _usuarioService.SalvarUsuario(usuarioRequest);
+            var lUsuario = _mapper.Map<Usuario>(usuarioRequest);
+
+            var tokenUsuario = _tokenService.GerarToken(lUsuario);
+            
+            _usuarioService.SalvarUsuario(lUsuario);
         
-            return ResponseBase.ResponderController(true, $"Usuário {(salvarUsuario.UsuarioId == 0 ? "inserido" : "alterado")} com sucesso", salvarUsuario);
+            return ResponseBase.ResponderController(true, $"Usuário cadastrado com sucesso", tokenUsuario);
         }
         catch (Exception e)
         {

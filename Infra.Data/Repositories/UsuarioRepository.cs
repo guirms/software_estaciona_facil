@@ -10,12 +10,12 @@ public class UsuarioRepository: BaseRepository<Usuario>, IUsuarioRepository
     {
     }
     
-    public void SalvarUsuario(Usuario usuarioObj, int usuarioId)
+    public void SalvarUsuario(Usuario lUsuario, int usuarioId)
     {
         if (usuarioId != 0)
-            Update(usuarioObj);
+            Update(lUsuario);
         else
-            Add(usuarioObj);
+            Add(lUsuario);
     }
     
 }
