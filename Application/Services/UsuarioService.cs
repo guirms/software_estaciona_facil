@@ -20,10 +20,18 @@ public class UsuarioService: IUsuarioService
         _tokenService = tokenService;
     }
     
-    public UsuarioResponse SalvarUsuario(Usuario lUsuario)
+    public UsuarioResponse CadastrarUsuario(Usuario lUsuario)
     {
-        _usuarioRepository.SalvarUsuario(lUsuario, lUsuario.Id);
+        if (lUsuario == null)
+            throw new NullReferenceException("Usuário nulo");
+        
+        var usuarioCadastrado = _usuarioRepository.SalvarUsuario(lUsuario, lUsuario.Id);
+        
+        if (usuarioCadastrado == 0) 
+            throw new NullReferenceException("Erro ao cadastrar usuário");
 
+        lUsuario.Id = usuarioCadastrado;
+        
         return _mapper.Map<UsuarioResponse>(lUsuario);
     }
 

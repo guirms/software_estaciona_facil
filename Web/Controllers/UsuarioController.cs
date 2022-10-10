@@ -31,7 +31,7 @@ public class UsuarioController: ControllerBase
 
             var tokenUsuario = _tokenService.GerarToken(lUsuario);
             
-            _usuarioService.SalvarUsuario(lUsuario);
+            _usuarioService.CadastrarUsuario(lUsuario);
         
             return ResponseBase.ResponderController(true, $"Usuário cadastrado com sucesso", tokenUsuario);
         }

@@ -6,6 +6,6 @@ namespace Application.Interfaces;
 
 public interface IUsuarioService
 {
-    UsuarioResponse SalvarUsuario(Usuario usuarioRequest);
+    UsuarioResponse CadastrarUsuario(Usuario usuarioRequest);
     string AutenticarUsuario(UsuarioRequest usuarioRequest);
 }
