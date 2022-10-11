@@ -1,4 +1,5 @@
 ﻿using Application.Interfaces;
+using Application.Objects.Dtos;
 using Application.Objects.Requests.Usuario;
 using Application.Objects.Responses.Usuario;
 using AutoMapper;
@@ -20,19 +21,26 @@ public class UsuarioService: IUsuarioService
         _tokenService = tokenService;
     }
     
-    public UsuarioResponse CadastrarUsuario(Usuario lUsuario)
+    public UsuarioResponse CadastrarUsuario(UsuarioRequest usuarioRequest)
     {
+        var lUsuario = _mapper.Map<Usuario>(usuarioRequest);
+        
         if (lUsuario == null)
             throw new NullReferenceException("Usuário nulo");
         
-        var usuarioCadastrado = _usuarioRepository.SalvarUsuario(lUsuario, lUsuario.Id);
+        var usuarioCadastrado = _usuarioRepository.SalvarUsuario(lUsuario, lUsuario.UsuarioId);
         
         if (usuarioCadastrado == 0) 
-            throw new NullReferenceException("Erro ao cadastrar usuário");
-
-        lUsuario.Id = usuarioCadastrado;
+            throw new NullReferenceException("Erro ao salvar usuário");
         
-        return _mapper.Map<UsuarioResponse>(lUsuario);
+        var tokenSessaoUsuario = _tokenService.GerarTokenSessao(lUsuario);
+
+        if (tokenSessaoUsuario == null) 
+            throw new NullReferenceException("Erro ao gerar token de usuário");
+        
+        var lUsuarioDto = _mapper.Map<UsuarioDto>(lUsuario);
+
+        return _mapper.Map<UsuarioResponse>(lUsuarioDto);
     }
 
     public string AutenticarUsuario(UsuarioRequest usuarioRequest)
@@ -41,7 +49,8 @@ public class UsuarioService: IUsuarioService
         
         var lUsuario = _mapper.Map<Usuario>(usuarioRequest);
 
-        if (usuarioLogado != null) return _tokenService.GerarToken(lUsuario);
+        if (usuarioLogado != null) 
+            return _tokenService.GerarTokenSessao(lUsuario);
         
         return String.Empty; 
     }

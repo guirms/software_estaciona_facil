@@ -1,5 +1,5 @@
 ﻿using Application.Interfaces;
-using Application.Objects.Base;
+using Application.Objects.Bases;
 using Application.Objects.Requests.Token;
 using AutoMapper;
 using Domain.Models;
@@ -20,14 +20,14 @@ public class TokenController: ControllerBase
         _tokenService = tokenService;
     }
     
-    [HttpPost("GerarToken")]
-    public JsonResult GerarToken(TokenRequest tokenRequest)
+    [HttpPost("GerarTokenSessao")]
+    public JsonResult GerarTokenSessao(TokenRequest tokenRequest)
     {
         try
         {
             var lUsuario = _mapper.Map<Usuario>(tokenRequest);
             
-            var token = _tokenService.GerarToken(lUsuario);
+            var token = _tokenService.GerarTokenSessao(lUsuario);
          
             return ResponseBase.ResponderController(true, "Token gerado com sucesso", token);
         }

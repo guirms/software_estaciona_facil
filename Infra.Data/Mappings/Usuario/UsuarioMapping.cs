@@ -9,9 +9,9 @@ public class UsuarioMapping: IEntityTypeConfiguration<Domain.Models.Usuario>
     {
         builder.ToTable("Usuarios");
 
-        builder.HasKey(x => x.Id);
+        builder.HasKey(x => x.UsuarioId);
 
-        builder.Property(x => x.Id)
+        builder.Property(x => x.UsuarioId)
             .IsRequired();
 
         builder.Property(x => x.Email)

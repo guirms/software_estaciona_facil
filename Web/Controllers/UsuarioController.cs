@@ -1,5 +1,5 @@
 ﻿using Application.Interfaces;
-using Application.Objects.Base;
+using Application.Objects.Bases;
 using Application.Objects.Requests.Usuario;
 using AutoMapper;
 using Domain.Models;
@@ -12,14 +12,10 @@ namespace Web.Controllers;
 public class UsuarioController: ControllerBase
 {
     private readonly IUsuarioService _usuarioService;
-    private readonly ITokenService _tokenService;
-    private readonly IMapper _mapper;
 
-    public UsuarioController(IUsuarioService usuarioService, ITokenService tokenService, IMapper mapper)
+    public UsuarioController(IUsuarioService usuarioService)
     {
         _usuarioService = usuarioService;
-        _tokenService = tokenService;
-        _mapper = mapper;
     }
     
     [HttpPost("CadastrarUsuario")]
@@ -27,13 +23,9 @@ public class UsuarioController: ControllerBase
     {
         try
         {
-            var lUsuario = _mapper.Map<Usuario>(usuarioRequest);
-
-            var tokenUsuario = _tokenService.GerarToken(lUsuario);
-            
-            _usuarioService.CadastrarUsuario(lUsuario);
+            var cadastrarUsuario = _usuarioService.CadastrarUsuario(usuarioRequest);
         
-            return ResponseBase.ResponderController(true, $"Usuário cadastrado com sucesso", tokenUsuario);
+            return ResponseBase.ResponderController(true, $"Usuário cadastrado com sucesso", cadastrarUsuario);
         }
         catch (Exception e)
         {

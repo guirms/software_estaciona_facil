@@ -17,16 +17,16 @@ public class TokenService: ITokenService
         _configuration = configuration;
     }
     
-    public string GerarToken(Usuario usuario)
+    public string GerarTokenSessao(Usuario usuario)
     {
         var tokenHandler = new JwtSecurityTokenHandler();
-        var key = Encoding.ASCII.GetBytes(_configuration["SecretKey"] ?? string.Empty); //testar se ta pegando certo do appsetings.json
+        var key = Encoding.ASCII.GetBytes(_configuration["SecretKey"] ?? string.Empty);
         var tokenDescriptor = new SecurityTokenDescriptor
         {
             Subject = new ClaimsIdentity(new Claim[]
             {
                 new Claim(ClaimTypes.Email, usuario.Email),
-                new Claim(ClaimTypes.NameIdentifier, usuario.Id.ToString()),
+                new Claim(ClaimTypes.NameIdentifier, usuario.UsuarioId.ToString()),
             }),
             Expires = DateTime.UtcNow.AddHours(3),
             SigningCredentials =

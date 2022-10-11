@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 
-namespace Application.Objects.Base;
+namespace Application.Objects.Bases;
 
 public class ResponseBase
 {

@@ -22,4 +22,12 @@ public class UsuarioServiceTest
     {
         Assert.Throws<NullReferenceException>(() => _usuarioService.CadastrarUsuario(null!));
     }
+    
+    
+    // será implementado
+    // [Fact]
+    // public void CadastrarUsuario_EnviandoUsuarioJaExistente_NAOSEIOQDEVERETORNAR()
+    // {
+    //     Assert.Throws<NullReferenceException>(() => _usuarioService.CadastrarUsuario(null!));
+    // }
 }
