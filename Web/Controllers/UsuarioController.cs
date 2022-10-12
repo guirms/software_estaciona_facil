@@ -1,8 +1,6 @@
 ﻿using Application.Interfaces;
 using Application.Objects.Bases;
 using Application.Objects.Requests.Usuario;
-using AutoMapper;
-using Domain.Models;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Web.Controllers;

@@ -1,5 +1,4 @@
 ﻿using Application.Interfaces;
-using Application.Objects.Dtos;
 using Application.Objects.Requests.Usuario;
 using Application.Objects.Responses.Usuario;
 using AutoMapper;
@@ -38,20 +37,10 @@ public class UsuarioService: IUsuarioService
         if (tokenSessaoUsuario == null) 
             throw new NullReferenceException("Erro ao gerar token de usuário");
         
-        var lUsuarioDto = _mapper.Map<UsuarioDto>(lUsuario);
-
-        return _mapper.Map<UsuarioResponse>(lUsuarioDto);
-    }
-
-    public string AutenticarUsuario(UsuarioRequest usuarioRequest)
-    {
-        var usuarioLogado = _usuarioRepository.GetAll().FirstOrDefault(x => x.Email == usuarioRequest.Email);
+        var lUsuarioResponse = _mapper.Map<UsuarioResponse>(lUsuario);
         
-        var lUsuario = _mapper.Map<Usuario>(usuarioRequest);
+        lUsuarioResponse.TokenSessaoUsuario = tokenSessaoUsuario;
 
-        if (usuarioLogado != null) 
-            return _tokenService.GerarTokenSessao(lUsuario);
-        
-        return String.Empty; 
+        return lUsuarioResponse;
     }
 }

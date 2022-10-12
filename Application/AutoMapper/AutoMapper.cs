@@ -1,5 +1,4 @@
-﻿using Application.Objects.Dtos;
-using Application.Objects.Requests.Token;
+﻿using Application.Objects.Requests.Token;
 using Application.Objects.Requests.Usuario;
 using Application.Objects.Responses.Usuario;
 using AutoMapper;
@@ -15,7 +14,6 @@ public class AutoMapper: Profile
         #region Usuario
 
         CreateMap<UsuarioRequest, Usuario>().ReverseMap();
-        CreateMap<UsuarioRequest, UsuarioDto>().ReverseMap();
 
         #endregion
         
@@ -28,8 +26,7 @@ public class AutoMapper: Profile
         // Domain to ViewModel
         #region Usuario
 
-        CreateMap<Usuario, UsuarioDto>().ReverseMap();
-        CreateMap<UsuarioDto, UsuarioResponse>().ReverseMap();
+        CreateMap<Usuario, UsuarioResponse>().ReverseMap();
 
         #endregion
     }

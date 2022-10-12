@@ -19,12 +19,12 @@
             <form (click)="submitLogin()" [formGroup]="loginForm" #formDir="ngForm">
                 <div>
                     <label class="form-label">E-mail</label>
-                    <input type="email" class="form-control" formControlName="email">
+                    <input type="email" [class]="loginForm.get('email')?.errors && (loginForm.get('email')?.touched || formDir.submitted) ? 'form-control is-invalid' : 'form-control'" formControlName="email">
                     <p *ngIf="loginForm.get('email')?.errors && (loginForm.get('email')?.touched || formDir.submitted)" class="mensagem-erro-formulario">E-mail é obrigatório</p>
                 </div>
                 <div class="my-3">
                     <label class="form-label">Senha</label>
-                    <input type="password" class="form-control" formControlName="senha">
+                    <input type="password" [class]="loginForm.get('senha')?.errors && (loginForm.get('senha')?.touched || formDir.submitted) ? 'form-control is-invalid' : 'form-control'" formControlName="senha">
                     <p *ngIf="loginForm.get('senha')?.errors && (loginForm.get('senha')?.touched || formDir.submitted)" class="mensagem-erro-formulario">Senha é obrigatória</p>
                 </div>
                 <div class="mb-3 form-check">
@@ -39,8 +39,6 @@
         </main>
 
     </section>
-
-
 
 </body>
 
