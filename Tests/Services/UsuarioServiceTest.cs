@@ -1,4 +1,5 @@
 ﻿using Application.Interfaces;
+using Application.Objects.Requests.Usuario;
 using Application.Services;
 using AutoMapper;
 using Infra.Data.Interfaces;
@@ -23,6 +24,15 @@ public class UsuarioServiceTest
         Assert.Throws<NullReferenceException>(() => _usuarioService.CadastrarUsuario(null!));
     }
     
+    [Fact]
+    public void CadastrarUsuario_EnviandoEmailIncorreto_DeveRetornarException()
+    {
+        var usuarioTeste = new UsuarioRequest { Email = "emailinvalido" };
+        var chamdaMetodo = Assert.Throws<Exception>(() => _usuarioService.CadastrarUsuario(usuarioTeste));
+        
+        Assert.Equal("Email inválido", chamdaMetodo.Message);
+
+    }
     
     // será implementado
     // [Fact]

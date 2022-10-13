@@ -17,5 +17,9 @@ public class UsuarioRepository: BaseRepository<Usuario>, IUsuarioRepository
         
         return Add(lUsuario);
     }
-    
+
+    public Usuario? GetUsuarioByEmail(string email)
+    {
+        return Contexto.Set<Usuario>().Find(email);
+    }
 }
