@@ -1,4 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.Security.Cryptography;
+using System.Text;
 using Application.Interfaces;
 using Application.Objects.Requests.Usuario;
 using Application.Objects.Responses.Usuario;
@@ -26,7 +28,7 @@ public class UsuarioService: IUsuarioService
         var usuarioJaExiste = _usuarioRepository.GetUsuarioByEmail(usuarioRequest.Email);
         
         if (usuarioJaExiste != null)
-            throw new Exception("Já existe um usuário com esse e-mail no sistema");
+            throw new Exception("Usuário já cadastrado no sistema");
 
         if (!EmailValido(usuarioRequest.Email))
             throw new Exception("Email inválido");
@@ -35,6 +37,8 @@ public class UsuarioService: IUsuarioService
 
         if (lUsuario == null)
             throw new NullReferenceException("Usuário nulo");
+        
+        lUsuario.Senha = GerarSenhaHashMd5(lUsuario.Senha);
 
         var usuarioCadastrado = _usuarioRepository.SalvarUsuario(lUsuario, lUsuario.UsuarioId);
 
@@ -51,6 +55,22 @@ public class UsuarioService: IUsuarioService
         lUsuarioResponse.TokenSessaoUsuario = tokenSessaoUsuario;
 
         return lUsuarioResponse;
+    }
+    
+    private string GerarSenhaHashMd5(string senha)
+    {
+        MD5 md5Hash = MD5.Create();
+
+        byte[] data = md5Hash.ComputeHash(Encoding.UTF8.GetBytes(senha));
+
+        StringBuilder sBuilder = new StringBuilder();
+
+        for (int i = 0; i < data.Length; i++)
+        {
+            sBuilder.Append(data[i].ToString("x2"));
+        }
+
+        return sBuilder.ToString();
     }
 
     private bool EmailValido(string email)

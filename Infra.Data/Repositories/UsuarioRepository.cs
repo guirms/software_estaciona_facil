@@ -20,6 +20,6 @@ public class UsuarioRepository: BaseRepository<Usuario>, IUsuarioRepository
 
     public Usuario? GetUsuarioByEmail(string email)
     {
-        return Contexto.Set<Usuario>().Find(email);
+        return Contexto.Set<Usuario>().SingleOrDefault(u => u.Email == email);
     }
 }
