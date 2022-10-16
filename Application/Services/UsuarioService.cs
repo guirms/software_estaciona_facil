@@ -25,24 +25,27 @@ public class UsuarioService: IUsuarioService
 
     public UsuarioResponse CadastrarUsuario(UsuarioRequest usuarioRequest)
     {
+        if (usuarioRequest == null)
+            throw new NullReferenceException("Usuário nulo");
+        
+        var lUsuario = _mapper.Map<Usuario>(usuarioRequest);
+
+        if (!EmailValido(usuarioRequest.Email))
+            throw new Exception("Email inválido");
+        
+        if (string.IsNullOrEmpty(lUsuario.Senha))
+            throw new NullReferenceException("Senha nula é inválida");
+        
+        lUsuario.Senha = GerarSenhaHashMd5(lUsuario.Senha);
+
         var usuarioJaExiste = _usuarioRepository.GetUsuarioByEmail(usuarioRequest.Email);
         
         if (usuarioJaExiste != null)
             throw new Exception("Usuário já cadastrado no sistema");
-
-        if (!EmailValido(usuarioRequest.Email))
-            throw new Exception("Email inválido");
-
-        var lUsuario = _mapper.Map<Usuario>(usuarioRequest);
-
-        if (lUsuario == null)
-            throw new NullReferenceException("Usuário nulo");
         
-        lUsuario.Senha = GerarSenhaHashMd5(lUsuario.Senha);
+        var cadastrarUsuario = _usuarioRepository.SalvarUsuario(lUsuario, lUsuario.UsuarioId);
 
-        var usuarioCadastrado = _usuarioRepository.SalvarUsuario(lUsuario, lUsuario.UsuarioId);
-
-        if (usuarioCadastrado == 0)
+        if (cadastrarUsuario == 0)
             throw new Exception("Erro ao salvar usuário");
 
         var tokenSessaoUsuario = _tokenService.GerarTokenSessao(lUsuario);
