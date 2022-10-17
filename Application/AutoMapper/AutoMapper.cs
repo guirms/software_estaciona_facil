@@ -11,15 +11,20 @@ public class AutoMapper: Profile
     public AutoMapper()
     {
         // ViewModel to domain
-        #region Cliente
+        #region Usuario
 
         CreateMap<UsuarioRequest, Usuario>().ReverseMap();
-        CreateMap<TokenRequest, Usuario>().ReverseMap();
 
         #endregion
         
+        #region Token
+           
+        CreateMap<TokenRequest, Usuario>().ReverseMap();
+        
+        #endregion
+        
         // Domain to ViewModel
-        #region Cliente
+        #region Usuario
 
         CreateMap<Usuario, UsuarioResponse>().ReverseMap();
 

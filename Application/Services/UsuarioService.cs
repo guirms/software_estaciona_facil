@@ -1,4 +1,7 @@
-﻿using Application.Interfaces;
+﻿using System.ComponentModel.DataAnnotations;
+using System.Security.Cryptography;
+using System.Text;
+using Application.Interfaces;
 using Application.Objects.Requests.Usuario;
 using Application.Objects.Responses.Usuario;
 using AutoMapper;
@@ -19,24 +22,67 @@ public class UsuarioService: IUsuarioService
         _usuarioRepository = usuarioRepository;
         _tokenService = tokenService;
     }
-    
-    public UsuarioResponse SalvarUsuario(UsuarioRequest usuarioRequest)
-    {
-        var lUsuario = _mapper.Map<Usuario>(usuarioRequest);
-        
-        _usuarioRepository.SalvarUsuario(lUsuario, usuarioRequest.UsuarioId);
 
-        return _mapper.Map<UsuarioResponse>(lUsuario);
+    public UsuarioResponse CadastrarUsuario(UsuarioRequest usuarioRequest)
+    {
+        if (usuarioRequest == null)
+            throw new NullReferenceException("Usuário nulo");
+        
+        var lUsuario = _mapper.Map<Usuario>(usuarioRequest);
+
+        if (!EmailValido(usuarioRequest.Email))
+            throw new Exception("Email inválido");
+        
+        if (string.IsNullOrEmpty(lUsuario.Senha))
+            throw new NullReferenceException("Senha nula é inválida");
+        
+        lUsuario.Senha = GerarSenhaHashMd5(lUsuario.Senha);
+
+        var usuarioJaExiste = _usuarioRepository.GetUsuarioByEmail(usuarioRequest.Email);
+        
+        if (usuarioJaExiste != null)
+            throw new Exception("Usuário já cadastrado no sistema");
+        
+        var cadastrarUsuario = _usuarioRepository.SalvarUsuario(lUsuario, lUsuario.UsuarioId);
+
+        if (cadastrarUsuario == 0)
+            throw new Exception("Erro ao salvar usuário");
+
+        var tokenSessaoUsuario = _tokenService.GerarTokenSessao(lUsuario);
+
+        if (tokenSessaoUsuario == null)
+            throw new Exception("Erro ao gerar token de usuário");
+
+        var lUsuarioResponse = _mapper.Map<UsuarioResponse>(lUsuario);
+
+        lUsuarioResponse.TokenSessaoUsuario = tokenSessaoUsuario;
+
+        return lUsuarioResponse;
+    }
+    
+    private string GerarSenhaHashMd5(string senha)
+    {
+        MD5 md5Hash = MD5.Create();
+
+        byte[] data = md5Hash.ComputeHash(Encoding.UTF8.GetBytes(senha));
+
+        StringBuilder sBuilder = new StringBuilder();
+
+        for (int i = 0; i < data.Length; i++)
+        {
+            sBuilder.Append(data[i].ToString("x2"));
+        }
+
+        return sBuilder.ToString();
     }
 
-    public string AutenticarUsuario(UsuarioRequest usuarioRequest)
+    private bool EmailValido(string email)
     {
-        var usuarioLogado = _usuarioRepository.GetAll().FirstOrDefault(x => x.Email == usuarioRequest.Email);
+        if(new EmailAddressAttribute().IsValid(email))
+        {
+            return true;
+        }
         
-        var lUsuario = _mapper.Map<Usuario>(usuarioRequest);
-
-        if (usuarioLogado != null) return _tokenService.GerarToken(lUsuario);
-        
-        return String.Empty; 
+        return false;
     }
 }
