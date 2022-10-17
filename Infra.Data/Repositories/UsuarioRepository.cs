@@ -10,12 +10,16 @@ public class UsuarioRepository: BaseRepository<Usuario>, IUsuarioRepository
     {
     }
     
-    public void SalvarUsuario(Usuario usuarioObj, int usuarioId)
+    public int SalvarUsuario(Usuario lUsuario, int usuarioId)
     {
         if (usuarioId != 0)
-            Update(usuarioObj);
-        else
-            Add(usuarioObj);
+           return Update(lUsuario);
+        
+        return Add(lUsuario);
     }
-    
+
+    public Usuario? GetUsuarioByEmail(string email)
+    {
+        return Contexto.Set<Usuario>().SingleOrDefault(u => u.Email == email);
+    }
 }

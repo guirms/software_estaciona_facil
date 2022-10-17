@@ -1,5 +1,5 @@
 ﻿using Application.Interfaces;
-using Application.Objects.Base;
+using Application.Objects.Bases;
 using Application.Objects.Requests.Usuario;
 using Microsoft.AspNetCore.Mvc;
 
@@ -10,20 +10,20 @@ namespace Web.Controllers;
 public class UsuarioController: ControllerBase
 {
     private readonly IUsuarioService _usuarioService;
-    
+
     public UsuarioController(IUsuarioService usuarioService)
     {
         _usuarioService = usuarioService;
     }
     
-    [HttpPost("SalvarUsuario")]
-    public JsonResult SalvarUsuario([FromBody] UsuarioRequest usuarioRequest)
+    [HttpPost("CadastrarUsuario")]
+    public JsonResult CadastrarUsuario([FromBody] UsuarioRequest usuarioRequest)
     {
         try
         {
-            var salvarUsuario = _usuarioService.SalvarUsuario(usuarioRequest);
+            var cadastrarUsuario = _usuarioService.CadastrarUsuario(usuarioRequest);
         
-            return ResponseBase.ResponderController(true, $"Usuário {(salvarUsuario.UsuarioId == 0 ? "inserido" : "alterado")} com sucesso", salvarUsuario);
+            return ResponseBase.ResponderController(true, $"Usuário cadastrado com sucesso", cadastrarUsuario);
         }
         catch (Exception e)
         {

@@ -13,16 +13,16 @@ public class BaseRepository<T>: IBaseRepository<T> where T : class
         Contexto = contexto;
     }
 
-    public void Add(T objeto)
+    public int Add(T objeto)
     {
         Contexto.Set<T>().Add(objeto);
-        Contexto.SaveChanges();
+        return Contexto.SaveChanges();
     }
 
-    public void Update(T objeto)
+    public int Update(T objeto)
     {
         Contexto.Set<T>().Update(objeto);
-        Contexto.SaveChanges();
+        return Contexto.SaveChanges();
     }
 
     public T? GetById(int id)

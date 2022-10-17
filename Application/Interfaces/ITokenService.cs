@@ -4,5 +4,5 @@ namespace Application.Interfaces;
 
 public interface ITokenService
 {
-    string GerarToken(Usuario usuario);
+    string GerarTokenSessao(Usuario usuario);
 }
