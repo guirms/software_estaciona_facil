@@ -2,7 +2,7 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "1 - Presentation", "1 - Presentation", "{95DE92E0-2818-488D-863F-2EE47943EFD7}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "4 - Infrasctructure", "4 - Infrasctructure", "{D9823B4E-6E47-4258-B098-036D826D44BC}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "4 - Infrastructure", "4 - Infrastructure", "{D9823B4E-6E47-4258-B098-036D826D44BC}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Web", "Web\Web.csproj", "{7D1A39D0-FA00-499E-AACC-5A2923A5B3F9}"
 EndProject

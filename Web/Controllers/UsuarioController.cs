@@ -10,24 +10,44 @@ namespace Web.Controllers;
 public class UsuarioController: ControllerBase
 {
     private readonly IUsuarioService _usuarioService;
-
     public UsuarioController(IUsuarioService usuarioService)
     {
         _usuarioService = usuarioService;
     }
     
-    [HttpPost("CadastrarUsuario")]
-    public JsonResult CadastrarUsuario([FromBody] UsuarioRequest usuarioRequest)
+    [HttpPost("RealizarLogin")]
+    public JsonResult RealizarLogin([FromBody] UsuarioLoginRequest usuarioLoginRequest)
     {
         try
         {
-            var cadastrarUsuario = _usuarioService.CadastrarUsuario(usuarioRequest);
+            if (usuarioLoginRequest == null)
+                throw new NullReferenceException("Usuário nulo");
+            
+            var cadastrarUsuario = _usuarioService.RealizarLogin(usuarioLoginRequest);
         
-            return ResponseBase.ResponderController(true, $"Usuário cadastrado com sucesso", cadastrarUsuario);
+            return ResponseBase.ResponderController(true, "Login bem-sucedido", cadastrarUsuario);
         }
         catch (Exception e)
         {
-            return ResponseBase.ResponderController(false, "Erro ao salvar usuário", e.Message);
+            return ResponseBase.ResponderController(false, e.Message);
+        }
+    }
+    
+    [HttpPost("CadastrarUsuario")]
+    public JsonResult CadastrarUsuario([FromBody] UsuarioCadastroRequest usuarioCadastroRequest)
+    {
+        try
+        {
+            if (usuarioCadastroRequest == null)
+                throw new NullReferenceException("Usuário nulo");
+            
+            var cadastrarUsuario = _usuarioService.CadastrarUsuario(usuarioCadastroRequest);
+        
+            return ResponseBase.ResponderController(true, "Usuário cadastrado com sucesso", cadastrarUsuario);
+        }
+        catch (Exception e)
+        {
+            return ResponseBase.ResponderController(false, e.Message);
         }
     }
 }

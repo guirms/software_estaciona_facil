@@ -1,33 +1,29 @@
-﻿using Application.Objects.Requests.Token;
-using Application.Objects.Requests.Usuario;
+﻿using Application.Objects.Requests.Usuario;
 using Application.Objects.Responses.Usuario;
 using AutoMapper;
 using Domain.Models;
 
 namespace Application.AutoMapper;
 
-public class AutoMapper: Profile
+public class AutoMapper : Profile
 {
     public AutoMapper()
     {
-        // ViewModel to domain
-        #region Usuario
-
-        CreateMap<UsuarioRequest, Usuario>().ReverseMap();
-
-        #endregion
-        
-        #region Token
-           
-        CreateMap<TokenRequest, Usuario>().ReverseMap();
-        
-        #endregion
-        
-        // Domain to ViewModel
-        #region Usuario
-
-        CreateMap<Usuario, UsuarioResponse>().ReverseMap();
-
-        #endregion
+        UsuarioMap();
     }
+
+    #region Usuario
+
+    private void UsuarioMap()
+    {
+        CreateMap<UsuarioCadastroRequest, Usuario>();
+        
+        CreateMap<UsuarioLoginRequest, UsuarioResponse>();
+        
+        CreateMap<Usuario, UsuarioResponse>();
+    }
+
+    #endregion
+    
 }
+    
