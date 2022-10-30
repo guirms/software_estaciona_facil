@@ -10,16 +10,16 @@ public class UsuarioRepository: BaseRepository<Usuario>, IUsuarioRepository
     {
     }
     
-    public int SalvarUsuario(Usuario lUsuario, int usuarioId)
+    public int SalvarUsuario(Usuario lUsuario)
     {
-        if (usuarioId != 0)
+        if (lUsuario.UsuarioId != 0)
            return Update(lUsuario);
         
         return Add(lUsuario);
     }
 
-    public Usuario? GetUsuarioByEmail(string email)
+    public int? ConsultarUsuarioIdPorEmailESenha(string email, string senha)
     {
-        return Contexto.Set<Usuario>().SingleOrDefault(u => u.Email == email);
+        return Contexto.Set<Usuario>().SingleOrDefault(u => u.Email == email && u.Senha == senha)?.UsuarioId;
     }
 }

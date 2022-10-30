@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { Validators } from '@angular/forms';
+import { LoginService } from 'src/app/Servicos/login/login.service';
 
 @Component({
   selector: 'app-tela-login',
@@ -12,19 +13,33 @@ export class TelaLoginComponent implements OnInit {
   loginForm!: FormGroup;
   email!: string;
   senha!: string;
+  lembrarSenha!: boolean;
 
-  constructor(private formBuilder: FormBuilder) { }
+  constructor(private formBuilder: FormBuilder,
+    private loginService: LoginService) { }
 
   ngOnInit(): void {
     this.loginForm = this.formBuilder.group({
       id: [''],
       email: ['', [Validators.required, Validators.email]],
-      senha: ['', [Validators.required]]
+      senha: ['', [Validators.required]],
+      lembrarSenha: ['', []]
     });
   }
 
-  submitLogin() {
-    
+  async loginSubmit(): Promise<void> {
+    if (this.email && this.senha) {
+      var requisicaoLogin = await this.loginService.fazerLogin(this.email, this.senha);
+      if (requisicaoLogin.Sucesso) {
+        // toastr de sucesso e redirecionamento
+      } 
+      else {
+        // toastr de erro
+      }
+    }
+    else {
+      // toastr de informações de login inválidas 
+    }
   }
 
 }

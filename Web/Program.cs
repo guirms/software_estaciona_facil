@@ -19,6 +19,19 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddDbContext<ConfigContext>(opt => opt.UseSqlServer(configuration.GetConnectionString("EstacionaFacilDb") ?? string.Empty).EnableSensitiveDataLogging());
 builder.Services.AddAutoMapper(typeof(Application.AutoMapper.AutoMapper));
 
+// CORS policy
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("CorsPolicy",
+        build =>
+        {
+            build.WithOrigins("http://localhost:4200")
+                .AllowAnyHeader()
+                .AllowAnyMethod();
+        });
+});
+
+
 // JWT Authentication
 var key = Encoding.ASCII.GetBytes("SecretJWT123SecretJWT123");
 builder.Services.AddAuthentication(x =>
@@ -53,6 +66,9 @@ if (app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 
 app.UseAuthorization();
+
+// CORS policy
+app.UseCors("CorsPolicy");
 
 // JWT Authentication
 app.UseAuthentication();

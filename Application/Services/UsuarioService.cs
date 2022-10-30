@@ -1,6 +1,4 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using System.Security.Cryptography;
-using System.Text;
 using Application.Interfaces;
 using Application.Objects.Requests.Usuario;
 using Application.Objects.Responses.Usuario;
@@ -14,67 +12,71 @@ public class UsuarioService: IUsuarioService
 {
     private readonly IMapper _mapper;
     private readonly IUsuarioRepository _usuarioRepository; 
-    private readonly ITokenService _tokenService; 
-    
-    public UsuarioService(IMapper mapper, IUsuarioRepository usuarioRepository, ITokenService tokenService)
+    private readonly IAutenticacaoService _autenticacaoService;
+    public UsuarioService(IMapper mapper, IUsuarioRepository usuarioRepository, IAutenticacaoService autenticacaoService)
     {
         _mapper = mapper;
         _usuarioRepository = usuarioRepository;
-        _tokenService = tokenService;
+        _autenticacaoService = autenticacaoService;
     }
 
-    public UsuarioResponse CadastrarUsuario(UsuarioRequest usuarioRequest)
+    public UsuarioResponse CadastrarUsuario(UsuarioCadastroRequest usuarioCadastroRequest)
     {
-        if (usuarioRequest == null)
-            throw new NullReferenceException("Usuário nulo");
+         if (usuarioCadastroRequest.Senha != usuarioCadastroRequest.ConfirmacaoSenha)
+             throw new Exception("As senhas não são iguais");
         
-        var lUsuario = _mapper.Map<Usuario>(usuarioRequest);
+         if (!EmailValido(usuarioCadastroRequest.Email))
+             throw new Exception("Email em formato inválido");
+        
+         if (string.IsNullOrEmpty(usuarioCadastroRequest.Senha))
+             throw new NullReferenceException("Senha nula é inválida");
+        
+         usuarioCadastroRequest.Senha = _autenticacaoService.GerarSenhaHashMd5(usuarioCadastroRequest.Senha);
+        
+         var usuarioJaExiste = _usuarioRepository.ConsultarUsuarioIdPorEmailESenha(usuarioCadastroRequest.Email, usuarioCadastroRequest.Senha);
+        
+         if (usuarioJaExiste != 0)
+             throw new Exception("Usuário já cadastrado no sistema");
+         
+         var lUsuario = _mapper.Map<Usuario>(usuarioCadastroRequest);
 
-        if (!EmailValido(usuarioRequest.Email))
-            throw new Exception("Email inválido");
-        
-        if (string.IsNullOrEmpty(lUsuario.Senha))
-            throw new NullReferenceException("Senha nula é inválida");
-        
-        lUsuario.Senha = GerarSenhaHashMd5(lUsuario.Senha);
-
-        var usuarioJaExiste = _usuarioRepository.GetUsuarioByEmail(usuarioRequest.Email);
-        
-        if (usuarioJaExiste != null)
-            throw new Exception("Usuário já cadastrado no sistema");
-        
-        var cadastrarUsuario = _usuarioRepository.SalvarUsuario(lUsuario, lUsuario.UsuarioId);
+        var cadastrarUsuario = _usuarioRepository.SalvarUsuario(new Usuario());
 
         if (cadastrarUsuario == 0)
             throw new Exception("Erro ao salvar usuário");
-
-        var tokenSessaoUsuario = _tokenService.GerarTokenSessao(lUsuario);
-
-        if (tokenSessaoUsuario == null)
-            throw new Exception("Erro ao gerar token de usuário");
-
+        
         var lUsuarioResponse = _mapper.Map<UsuarioResponse>(lUsuario);
 
-        lUsuarioResponse.TokenSessaoUsuario = tokenSessaoUsuario;
-
+        lUsuarioResponse.TokenSessaoUsuario =
+            _autenticacaoService.GerarTokenSessao(lUsuario.Email, lUsuario.Senha);
+        
+        if (string.IsNullOrEmpty(lUsuarioResponse.TokenSessaoUsuario))
+            throw new Exception("Erro ao gerar token de sessão");
+        
         return lUsuarioResponse;
     }
-    
-    private string GerarSenhaHashMd5(string senha)
+
+    public UsuarioResponse RealizarLogin(UsuarioLoginRequest usuarioLoginRequest)
     {
-        MD5 md5Hash = MD5.Create();
+        if (!EmailValido(usuarioLoginRequest.Email))
+            throw new Exception("Email em formato inválido");
+        
+        var usuarioRegistroId = _usuarioRepository.ConsultarUsuarioIdPorEmailESenha(usuarioLoginRequest.Email,
+            _autenticacaoService.GerarSenhaHashMd5(usuarioLoginRequest.Senha)) ?? throw new NullReferenceException("Usuário ou senha inválidos");
 
-        byte[] data = md5Hash.ComputeHash(Encoding.UTF8.GetBytes(senha));
+        var usuarioTokenSessao = _autenticacaoService.GerarTokenSessao(usuarioLoginRequest.Email,
+            _autenticacaoService.GerarSenhaHashMd5(usuarioLoginRequest.Senha));
+        
+        if (string.IsNullOrEmpty(usuarioTokenSessao))
+            throw new Exception("Erro ao gerar token de sessão");
 
-        StringBuilder sBuilder = new StringBuilder();
-
-        for (int i = 0; i < data.Length; i++)
+        return new UsuarioResponse
         {
-            sBuilder.Append(data[i].ToString("x2"));
-        }
-
-        return sBuilder.ToString();
+            UsuarioId = usuarioRegistroId,
+            TokenSessaoUsuario = usuarioTokenSessao
+        };
     }
+    
 
     private bool EmailValido(string email)
     {

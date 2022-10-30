@@ -26,7 +26,6 @@ export class TelaCadastroComponent implements OnInit {
   }
 
   submitLogin() {
-    console.log(this.loginForm.get('confirmarSenha'));
   }
 
 }
