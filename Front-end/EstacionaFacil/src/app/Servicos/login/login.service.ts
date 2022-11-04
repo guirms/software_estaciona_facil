@@ -10,7 +10,7 @@ import { BaseService } from '../base/base.service';
 })
 export class LoginService {
 
-  constructor(private baseService: BaseService<LoginModel>) { }
+  constructor(private baseService: BaseService<ResponseBaseModel<LoginModel>>) { }
 
   async fazerLogin(email: string, senha: string): Promise<ResponseBaseModel<LoginModel>> {
 
@@ -24,13 +24,7 @@ export class LoginService {
         return ex.message;
       });
 
-    const loginModel: ResponseBaseModel<LoginModel> = {
-      Sucesso: requisicaoLogin.Sucesso,
-      Mensagem: requisicaoLogin.Mensagem,
-      Data: requisicaoLogin.Data
-    }
-
-    return loginModel;
+    return requisicaoLogin;
   }
 
 }

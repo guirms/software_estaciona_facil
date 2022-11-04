@@ -1,11 +1,12 @@
 ﻿using Application.Interfaces;
 using Application.Objects.Bases;
 using Application.Objects.Requests.Usuario;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Web.Controllers;
 
-[ApiController]
+[ApiController, Authorize]
 [Route("Usuario")]
 public class UsuarioController: ControllerBase
 {
@@ -15,7 +16,7 @@ public class UsuarioController: ControllerBase
         _usuarioService = usuarioService;
     }
     
-    [HttpPost("RealizarLogin")]
+    [HttpPost("RealizarLogin"), AllowAnonymous]
     public JsonResult RealizarLogin([FromBody] UsuarioLoginRequest usuarioLoginRequest)
     {
         try
@@ -50,4 +51,18 @@ public class UsuarioController: ControllerBase
             return ResponseBase.ResponderController(false, e.Message);
         }
     }
+
+
+    // [HttpGet]
+    // public string Teste()
+    // {
+    //     return "a";
+    // }
+    //
+    //
+    // [HttpGet, AllowAnonymous]
+    // public string Teste2()
+    // {
+    //     return "a";
+    // }
 }

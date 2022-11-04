@@ -5,14 +5,16 @@ using Application.Objects.Responses.Usuario;
 using AutoMapper;
 using Domain.Models;
 using Infra.Data.Interfaces;
+using Web.Base;
 
 namespace Application.Services;
 
-public class UsuarioService: IUsuarioService
+public class UsuarioService: DadosSessaoBase, IUsuarioService
 {
     private readonly IMapper _mapper;
     private readonly IUsuarioRepository _usuarioRepository; 
     private readonly IAutenticacaoService _autenticacaoService;
+    
     public UsuarioService(IMapper mapper, IUsuarioRepository usuarioRepository, IAutenticacaoService autenticacaoService)
     {
         _mapper = mapper;
