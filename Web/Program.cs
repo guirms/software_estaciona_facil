@@ -61,7 +61,7 @@ builder.Services.AddSwaggerGen(option =>
                 Reference = new OpenApiReference 
                 { 
                     Type = ReferenceType.SecurityScheme, 
-                    Id = "Bearer" 
+                    Id = "Bearer",
                 } ,
                 Scheme = "oauth2",
                 Name = "Bearer",
@@ -73,27 +73,23 @@ builder.Services.AddSwaggerGen(option =>
 });
 
 // JWT Authentication
-builder.Services.AddAuthentication(options =>
+
+builder.Services.AddAuthorization(auth =>
 {
-    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-    options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
-}).AddJwtBearer(o =>
-{
-    o.TokenValidationParameters = new TokenValidationParameters
-    {
-        ValidIssuer = builder.Configuration["Jwt:Issuer"],
-        ValidAudience = builder.Configuration["Jwt:Audience"],
-        IssuerSigningKey = new SymmetricSecurityKey
-            (Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"])),
-        ValidateIssuer = true,
-        ValidateAudience = true,
-        ValidateLifetime = false,
-        ValidateIssuerSigningKey = true
-    };
+    auth.AddPolicy("Bearer", new AuthorizationPolicyBuilder()
+        .AddAuthenticationSchemes(JwtBearerDefaults.AuthenticationScheme‌​)
+        .RequireAuthenticatedUser().Build());
 });
 
-builder.Services.AddAuthorization();
+builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+    .AddJwtBearer(options => {
+        options.TokenValidationParameters = new TokenValidationParameters{
+            ValidateIssuerSigningKey = true,
+            IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes("joaooooooooooooooooooooooooooooooooooooooooooooooooooooooooo")),
+            ValidateIssuer = false,
+            ValidateAudience = false
+        };
+    });
 
 // Dependency Injector
 NativeInjector.RegisterServices(builder.Services);
@@ -108,8 +104,6 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
-
-app.UseAuthorization();
 
 // CORS policy
 app.UseCors("CorsPolicy");

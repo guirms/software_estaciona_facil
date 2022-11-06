@@ -25,7 +25,7 @@ public class AutenticacaoService: IAutenticacaoService
         var usuarioId = _usuarioRepository.ConsultarUsuarioIdPorEmailESenha(emailUsuario, senhaUsuarioHash) ?? throw new InvalidOperationException("Usuário inexistente");
 
         var tokenHandler = new JwtSecurityTokenHandler();
-        var key = Encoding.ASCII.GetBytes(_configuration["SecretKey"] ?? string.Empty);
+        var key = Encoding.ASCII.GetBytes("joaooooooooooooooooooooooooooooooooooooooooooooooooooooooooo");
         var tokenDescriptor = new SecurityTokenDescriptor
         {
             Subject = new ClaimsIdentity(new[]
