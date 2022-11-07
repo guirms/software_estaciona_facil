@@ -1,24 +1,20 @@
-﻿using System.IdentityModel.Tokens.Jwt;
+﻿using System.Security.Claims;
+using Application.Base;
 using Microsoft.AspNetCore.Mvc.Filters;
-using Web.Base;
 
 namespace Web.Filters;
 
 public class ApiBeforeActionFilter: DadosSessaoBase, IActionFilter
 {
-
     public void OnActionExecuting(ActionExecutingContext context)
     {
-        // Encontrar forma de pegar usuario logado id pela session storage
-        var token = context.HttpContext.Request.Headers["x-web-auth-token"];
+        var identity = context.HttpContext.User.Identity as ClaimsIdentity;
+
+        var usuarioLogadoId = identity?.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier)?.Value;
         
-        
-        if (token.ToString() != "") {
-            var handler = new JwtSecurityTokenHandler();
-            var validarToken = handler.ReadJwtToken(token);
-        }
-        
-        Console.WriteLine("teste");
+        if (usuarioLogadoId != null)
+            UsuarioLogadoId =
+                Int16.Parse(usuarioLogadoId);
     }
 
     public void OnActionExecuted(ActionExecutedContext context)

@@ -1,11 +1,11 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using Application.Base;
 using Application.Interfaces;
 using Application.Objects.Requests.Usuario;
 using Application.Objects.Responses.Usuario;
 using AutoMapper;
 using Domain.Models;
 using Infra.Data.Interfaces;
-using Web.Base;
 
 namespace Application.Services;
 

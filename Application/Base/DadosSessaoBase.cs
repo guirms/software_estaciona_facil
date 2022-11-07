@@ -1,6 +1,6 @@
-﻿namespace Web.Base;
+﻿namespace Application.Base;
 
 public class DadosSessaoBase
 {
-    protected int UsuarioLogadoId { get; set; }
+    public static int UsuarioLogadoId { get; set; }
 }

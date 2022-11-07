@@ -26,7 +26,7 @@ public class AutenticacaoController: ControllerBase
         }
         catch (Exception e)
         {
-            return ResponseBase.ResponderController(false, "Erro ao gerar token", e.Message);
+            return ResponseBase.ResponderController(false, $"Erro ao gerar token: {e.Message}");
         }
     }
 }
