@@ -20,13 +20,13 @@ public class AutenticacaoController: ControllerBase
     {
         try
         {
-            var token = _autenticacaoService.GerarTokenSessao(autenticacaoTokenRequest.Email, autenticacaoTokenRequest.Senha);
+            var token = _autenticacaoService.GerarTokenSessao(autenticacaoTokenRequest.Email, _autenticacaoService.GerarSenhaHashMd5(autenticacaoTokenRequest.Senha));
          
             return ResponseBase.ResponderController(true, "Token gerado com sucesso", token);
         }
         catch (Exception e)
         {
-            return ResponseBase.ResponderController(false, "Erro ao gerar token", e.Message);
+            return ResponseBase.ResponderController(false, $"Erro ao gerar token: {e.Message}");
         }
     }
 }

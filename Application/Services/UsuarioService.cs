@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using Application.Base;
 using Application.Interfaces;
 using Application.Objects.Requests.Usuario;
 using Application.Objects.Responses.Usuario;
@@ -8,11 +9,12 @@ using Infra.Data.Interfaces;
 
 namespace Application.Services;
 
-public class UsuarioService: IUsuarioService
+public class UsuarioService: DadosSessaoBase, IUsuarioService
 {
     private readonly IMapper _mapper;
     private readonly IUsuarioRepository _usuarioRepository; 
     private readonly IAutenticacaoService _autenticacaoService;
+    
     public UsuarioService(IMapper mapper, IUsuarioRepository usuarioRepository, IAutenticacaoService autenticacaoService)
     {
         _mapper = mapper;
