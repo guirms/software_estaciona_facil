@@ -42,7 +42,7 @@ public class UsuarioService: DadosSessaoBase, IUsuarioService
          
          var lUsuario = _mapper.Map<Usuario>(usuarioCadastroRequest);
 
-        var cadastrarUsuario = _usuarioRepository.SalvarUsuario(new Usuario());
+        var cadastrarUsuario = _usuarioRepository.SalvarUsuario(lUsuario);
 
         if (cadastrarUsuario == 0)
             throw new Exception("Erro ao salvar usuário");

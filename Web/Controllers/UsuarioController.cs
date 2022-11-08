@@ -1,5 +1,4 @@
-﻿using Application.Base;
-using Application.Interfaces;
+﻿using Application.Interfaces;
 using Application.Objects.Bases;
 using Application.Objects.Requests.Usuario;
 using Microsoft.AspNetCore.Authorization;
