@@ -7,11 +7,14 @@ import { catchError, Observable, retry } from 'rxjs';
 })
 export class BaseService<T> {
 
+  private tokenAutorizacao?: string;
+
   httpOptions = {
     headers: new HttpHeaders({
       'Content-Type': 'application/json',
       'Accept': 'application/json',
-      'Access-Control-Allow-Headers': 'Content-Type'
+      'Access-Control-Allow-Headers': 'Content-Type',
+      'Authorization': `Bearer ${this.tokenAutorizacao}`
     })
   }
 
@@ -28,7 +31,7 @@ export class BaseService<T> {
     }
   }
 
-  post(url: string, body: string): Observable<T> {
+  post(url: string, body: object): Observable<T> {
     try {
       return this.httpClient.post<T>(url, body,this.httpOptions).pipe(
         retry(2)
@@ -37,6 +40,11 @@ export class BaseService<T> {
     catch (e) {
       throw new Error('Erro durante requisição HTTP');
     }
+  }
+
+  setarToken(tokenSessaoUsuario?: string): void 
+  {
+      this.tokenAutorizacao = tokenSessaoUsuario ? tokenSessaoUsuario : undefined;
   }
 
 }

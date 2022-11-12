@@ -1,4 +1,4 @@
 export interface LoginModel {
-    UsuarioId: number;
-    TokenSessaoUsuario: String;
+    usuarioId: number;
+    tokenSessaoUsuario: String;
 }

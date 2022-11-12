@@ -6,8 +6,7 @@ import { TelaPrincipalComponent } from './Paginas/tela-principal/tela-principal.
 
 const routes: Routes = [
   {
-    // path: '', component: TelaLoginComponent,
-    path: '', component: TelaPrincipalComponent,
+    path: '', component: TelaLoginComponent,
   },
   {
     path: 'cadastro', component: TelaCadastroComponent

@@ -16,7 +16,7 @@ public class UsuarioController: ControllerBase
         _usuarioService = usuarioService;
     }
     
-    [HttpPost("RealizarLogin")]
+    [HttpPost("RealizarLogin"), AllowAnonymous]
     public JsonResult RealizarLogin([FromBody] UsuarioLoginRequest usuarioLoginRequest)
     {
         try
