@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Web.Controllers;
 
-[ApiController, Authorize]
+[ApiController, AllowAnonymous]
 [Route("Usuario")]
 public class UsuarioController: ControllerBase
 {
@@ -16,7 +16,7 @@ public class UsuarioController: ControllerBase
         _usuarioService = usuarioService;
     }
     
-    [HttpPost("RealizarLogin"), AllowAnonymous]
+    [HttpPost("RealizarLogin")]
     public JsonResult RealizarLogin([FromBody] UsuarioLoginRequest usuarioLoginRequest)
     {
         try
@@ -26,7 +26,7 @@ public class UsuarioController: ControllerBase
             
             var cadastrarUsuario = _usuarioService.RealizarLogin(usuarioLoginRequest);
         
-            return ResponseBase.ResponderController(true, "Login bem-sucedido", cadastrarUsuario);
+            return ResponseBase.ResponderController(true, "Login efetuado com sucesso", cadastrarUsuario);
         }
         catch (Exception e)
         {

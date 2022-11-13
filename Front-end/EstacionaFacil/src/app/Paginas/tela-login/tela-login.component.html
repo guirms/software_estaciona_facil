@@ -20,17 +20,16 @@
                     <label class="form-label me-3">E-mail</label>
                     <input type="email"
                         [class]="loginForm.get('email')?.errors && (loginForm.get('email')?.touched || formDir.submitted) ? 'form-control is-invalid' : 'form-control'"
-                        formControlName="email"
-                        [(ngModel)]="email">
+                        formControlName="email" [(ngModel)]="email">
                     <p *ngIf="loginForm.get('email')?.errors && (loginForm.get('email')?.touched || formDir.submitted)"
                         class="mensagem-erro-formulario">E-mail é obrigatório</p>
                 </div>
+
                 <div class="my-3">
                     <label class="form-label me-3">Senha</label>
                     <input type="password"
                         [class]="loginForm.get('senha')?.errors && (loginForm.get('senha')?.touched || formDir.submitted) ? 'form-control is-invalid' : 'form-control'"
-                        formControlName="senha"
-                        [(ngModel)]="senha">
+                        formControlName="senha" [(ngModel)]="senha">
                     <p *ngIf="loginForm.get('senha')?.errors && (loginForm.get('senha')?.touched || formDir.submitted)"
                         class="mensagem-erro-formulario">Senha é obrigatória</p>
                 </div>
@@ -49,7 +48,6 @@
                 <footer class="d-flex justify-content-center">
                     <button type="submit" class="btn btn-primary w-50 mb-3">Entrar</button>
                 </footer>
-
             </form>
 
         </section>

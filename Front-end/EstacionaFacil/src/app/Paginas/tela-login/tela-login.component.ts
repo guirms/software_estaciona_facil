@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { Validators } from '@angular/forms';
+import { Router } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
 import { LoginService } from 'src/app/Servicos/login/login.service';
 
 @Component({
@@ -16,7 +18,9 @@ export class TelaLoginComponent implements OnInit {
   lembrarSenha!: boolean;
 
   constructor(private formBuilder: FormBuilder,
-    private loginService: LoginService) { }
+    private loginService: LoginService,
+    private router: Router,
+    private toastrService: ToastrService) { }
 
   ngOnInit(): void {
     this.loginForm = this.formBuilder.group({
@@ -31,14 +35,15 @@ export class TelaLoginComponent implements OnInit {
     if (this.email && this.senha) {
       var requisicaoLogin = await this.loginService.fazerLogin(this.email, this.senha);
       if (requisicaoLogin.sucesso) {
-        alert('sucesso');
+        this.toastrService.success(requisicaoLogin.mensagem);
+        this.router.navigate(['principal']);
       } 
       else {
-        alert('erro');
+        this.toastrService.error(requisicaoLogin.mensagem);
       }
     }
     else {
-      alert('erro');
+      this.toastrService.warning('Campos digitados incorretamente');
     }
   }
 

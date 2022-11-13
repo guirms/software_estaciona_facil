@@ -8,13 +8,15 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { TelaCadastroComponent } from './Paginas/tela-cadastro/tela-cadastro.component';
 import { HttpClientModule } from '@angular/common/http';
 import { TelaPrincipalComponent } from './Paginas/tela-principal/tela-principal.component';
+import { ToastrModule } from 'ngx-toastr';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 @NgModule({
   declarations: [
     AppComponent,
     TelaLoginComponent,
     TelaCadastroComponent,
-    TelaPrincipalComponent
+    TelaPrincipalComponent,
   ],
   imports: [
     BrowserModule,
@@ -22,6 +24,8 @@ import { TelaPrincipalComponent } from './Paginas/tela-principal/tela-principal.
     FormsModule,
     ReactiveFormsModule,
     HttpClientModule,
+    ToastrModule.forRoot(),
+    BrowserAnimationsModule
   ],
   providers: [],
   bootstrap: [AppComponent]
