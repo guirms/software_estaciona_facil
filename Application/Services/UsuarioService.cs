@@ -72,11 +72,7 @@ public class UsuarioService: DadosSessaoBase, IUsuarioService
         if (string.IsNullOrEmpty(usuarioTokenSessao))
             throw new Exception("Erro ao gerar token de sessão");
 
-        return new UsuarioResponse
-        {
-            UsuarioId = usuarioRegistroId,
-            TokenSessaoUsuario = usuarioTokenSessao
-        };
+        return new UsuarioResponse(usuarioRegistroId, usuarioTokenSessao);
     }
     
 
