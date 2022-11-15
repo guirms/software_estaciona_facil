@@ -9,6 +9,9 @@ const routes: Routes = [
     path: '', component: TelaLoginComponent,
   },
   {
+    path: 'login', component: TelaLoginComponent,
+  },
+  {
     path: 'cadastro', component: TelaCadastroComponent
   },
   {

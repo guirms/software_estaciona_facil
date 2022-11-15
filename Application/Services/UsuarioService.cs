@@ -37,7 +37,7 @@ public class UsuarioService: DadosSessaoBase, IUsuarioService
         
          var usuarioJaExiste = _usuarioRepository.ConsultarUsuarioIdPorEmailESenha(usuarioCadastroRequest.Email, usuarioCadastroRequest.Senha);
         
-         if (usuarioJaExiste != 0)
+         if (usuarioJaExiste != 0 && usuarioJaExiste != null)
              throw new Exception("Usuário já cadastrado no sistema");
          
          var lUsuario = _mapper.Map<Usuario>(usuarioCadastroRequest);
@@ -66,13 +66,17 @@ public class UsuarioService: DadosSessaoBase, IUsuarioService
         var usuarioRegistroId = _usuarioRepository.ConsultarUsuarioIdPorEmailESenha(usuarioLoginRequest.Email,
             _autenticacaoService.GerarSenhaHashMd5(usuarioLoginRequest.Senha)) ?? throw new NullReferenceException("Usuário ou senha inválidos");
 
-        var usuarioTokenSessao = _autenticacaoService.GerarTokenSessao(usuarioLoginRequest.Email,
+        var tokenSessaoUsuario = _autenticacaoService.GerarTokenSessao(usuarioLoginRequest.Email,
             _autenticacaoService.GerarSenhaHashMd5(usuarioLoginRequest.Senha));
         
-        if (string.IsNullOrEmpty(usuarioTokenSessao))
+        if (string.IsNullOrEmpty(tokenSessaoUsuario))
             throw new Exception("Erro ao gerar token de sessão");
 
-        return new UsuarioResponse(usuarioRegistroId, usuarioTokenSessao);
+        return new UsuarioResponse
+        {
+            UsuarioId = usuarioRegistroId,
+            TokenSessaoUsuario = tokenSessaoUsuario
+        };
     }
     
 

@@ -1,6 +1,7 @@
 ﻿using Domain.Models;
 using Infra.Data.Context;
 using Infra.Data.Interfaces;
+using Microsoft.EntityFrameworkCore;
 
 namespace Infra.Data.Repositories;
 
@@ -20,6 +21,6 @@ public class UsuarioRepository: BaseRepository<Usuario>, IUsuarioRepository
 
     public int? ConsultarUsuarioIdPorEmailESenha(string email, string senha)
     {
-        return Contexto.Set<Usuario>().SingleOrDefault(u => u.Email == email && u.Senha == senha)?.UsuarioId;
+        return Contexto.Set<Usuario>().AsNoTracking().FirstOrDefault(u => u.Email == email && u.Senha == senha)?.UsuarioId;
     }
 }
