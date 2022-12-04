@@ -44,7 +44,8 @@ export class BaseService<T> {
 
   setarToken(tokenSessaoUsuario?: string): void 
   {
-      this.tokenAutorizacao = tokenSessaoUsuario ? tokenSessaoUsuario : undefined;
+    localStorage.setItem('tokenSessao', JSON.stringify(tokenSessaoUsuario));
+    this.tokenAutorizacao = tokenSessaoUsuario ? tokenSessaoUsuario : undefined;
   }
 
 }
