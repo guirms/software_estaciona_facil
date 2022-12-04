@@ -24,7 +24,7 @@ export class LoginService {
         return ex.message;
       });
 
-    this.baseService.setarToken(requisicaoLogin?.data?.tokenSessaoUsuario);
+    this.baseService.setarToken(requisicaoLogin?.data?.tokenSessaoUsuario ?? '');
 
     return requisicaoLogin;
   }

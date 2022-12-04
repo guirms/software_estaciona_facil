@@ -13,7 +13,7 @@ export class AutenticacaoGuard implements CanActivate {
   canActivate(
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
-    return this.autenticacaoService.validarLogin();
+    return this.autenticacaoService.tokenValido();
   }
   
 }

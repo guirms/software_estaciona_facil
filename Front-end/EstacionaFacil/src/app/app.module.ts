@@ -10,13 +10,18 @@ import { HttpClientModule } from '@angular/common/http';
 import { TelaPrincipalComponent } from './Paginas/tela-principal/tela-principal.component';
 import { ToastrModule } from 'ngx-toastr';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { JwtModule } from '@auth0/angular-jwt';
+
+export function tokenGetter() {
+  return localStorage.getItem('tokenSessao');
+}
 
 @NgModule({
   declarations: [
     AppComponent,
     TelaLoginComponent,
     TelaCadastroComponent,
-    TelaPrincipalComponent,
+    TelaPrincipalComponent
   ],
   imports: [
     BrowserModule,
@@ -25,7 +30,13 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     ReactiveFormsModule,
     HttpClientModule,
     ToastrModule.forRoot(),
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
+    JwtModule.forRoot({
+      config: {
+        tokenGetter: tokenGetter,
+        allowedDomains: ['localhost:4200'],
+      },
+    }),
   ],
   providers: [],
   bootstrap: [AppComponent]
