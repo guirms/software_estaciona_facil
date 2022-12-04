@@ -9,9 +9,9 @@ export class AutenticacaoService {
   constructor(private jwtHelper: JwtHelperService) { }
 
   tokenValido(): boolean {
-    const token = localStorage.getItem('tokenSessao');
+    const token = localStorage.getItem('tokenSessao') ?? '';
 
-    return !this.jwtHelper.isTokenExpired(token ?? '');
+    return !this.jwtHelper.isTokenExpired(token);
   } 
 
 }

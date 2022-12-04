@@ -26,7 +26,7 @@ export class BaseService<T> {
         retry(2)
       );
     }
-    catch (e) {
+    catch {
       throw new Error('Erro durante requisição HTTP');
     }
   }
@@ -37,7 +37,7 @@ export class BaseService<T> {
         retry(2)
       );
     }
-    catch (e) {
+    catch {
       throw new Error('Erro durante requisição HTTP');
     }
   }
