@@ -11,6 +11,8 @@ import { TelaPrincipalComponent } from './Paginas/tela-principal/tela-principal.
 import { ToastrModule } from 'ngx-toastr';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { JwtModule } from '@auth0/angular-jwt';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 
 export function tokenGetter() {
   return localStorage.getItem('tokenSessao');
@@ -31,6 +33,8 @@ export function tokenGetter() {
     HttpClientModule,
     ToastrModule.forRoot(),
     BrowserAnimationsModule,
+    MatSlideToggleModule,
+    MatProgressSpinnerModule,
     JwtModule.forRoot({
       config: {
         tokenGetter: tokenGetter,
@@ -41,4 +45,5 @@ export function tokenGetter() {
   providers: [],
   bootstrap: [AppComponent]
 })
+
 export class AppModule { }

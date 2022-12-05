@@ -19,10 +19,14 @@ export class LoginService {
       Senha: senha
     }
 
+    this.baseService.setarExibeLoad(true);
+
     const requisicaoLogin = await lastValueFrom(this.baseService.post(`${environment.url}Usuario/RealizarLogin`, body))
       .catch(ex => {
         return ex.message;
       });
+
+    this.baseService.setarExibeLoad(false);
 
     this.baseService.setarToken(requisicaoLogin?.data?.tokenSessaoUsuario ?? '');
 

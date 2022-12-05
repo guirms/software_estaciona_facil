@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
+import { LoginModel } from 'src/app/Interfaces/login/login-model';
+import { BaseService } from 'src/app/Servicos/base/base.service';
 import { LoginService } from 'src/app/Servicos/login/login.service';
 
 @Component({
@@ -19,7 +21,8 @@ export class TelaLoginComponent implements OnInit {
   constructor(private formBuilder: FormBuilder,
     private loginService: LoginService,
     private router: Router,
-    private toastrService: ToastrService) { }
+    private toastrService: ToastrService,
+    public baseService: BaseService<LoginModel>) { }
 
   ngOnInit(): void {
     this.loginForm = this.formBuilder.group({

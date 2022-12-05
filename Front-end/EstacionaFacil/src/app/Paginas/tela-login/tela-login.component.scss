@@ -4,3 +4,7 @@ body {
     height: 100vh;
     background-size: cover;
 }
+
+.mat-progress-spinner circle, .mat-spinner circle {
+    stroke: #b68200;
+}

@@ -8,6 +8,7 @@ import { catchError, Observable, retry } from 'rxjs';
 export class BaseService<T> {
 
   private tokenAutorizacao?: string;
+  public exibeLoad: boolean = false;
 
   httpOptions = {
     headers: new HttpHeaders({
@@ -42,10 +43,13 @@ export class BaseService<T> {
     }
   }
 
-  setarToken(tokenSessaoUsuario: string): void 
-  {
+  setarToken(tokenSessaoUsuario: string): void {
     localStorage.setItem('tokenSessao', tokenSessaoUsuario);
     this.tokenAutorizacao = tokenSessaoUsuario ? tokenSessaoUsuario : undefined;
+  }
+
+  setarExibeLoad(estadoLoad: boolean): void {
+    this.exibeLoad = estadoLoad;
   }
 
 }
