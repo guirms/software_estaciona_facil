@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
-import { Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
+import { LoginModel } from 'src/app/Interfaces/login/login-model';
+import { BaseService } from 'src/app/Servicos/base/base.service';
 import { LoginService } from 'src/app/Servicos/login/login.service';
 
 @Component({
@@ -14,32 +17,41 @@ export class TelaLoginComponent implements OnInit {
   email!: string;
   senha!: string;
   lembrarSenha!: boolean;
+  exibeSenha!: boolean;
 
   constructor(private formBuilder: FormBuilder,
-    private loginService: LoginService) { }
+    private loginService: LoginService,
+    private router: Router,
+    private toastrService: ToastrService,
+    public baseService: BaseService<LoginModel>) { }
 
   ngOnInit(): void {
     this.loginForm = this.formBuilder.group({
       id: [''],
       email: ['', [Validators.required, Validators.email]],
       senha: ['', [Validators.required]],
-      lembrarSenha: ['', []]
+      lembrarSenha: ['', []],
     });
   }
 
   async loginSubmit(): Promise<void> {
     if (this.email && this.senha) {
       var requisicaoLogin = await this.loginService.fazerLogin(this.email, this.senha);
-      if (requisicaoLogin.Sucesso) {
-        // toastr de sucesso e redirecionamento
+      if (requisicaoLogin.sucesso) {
+        this.toastrService.success(requisicaoLogin.mensagem);
+        this.router.navigate(['principal']);
       } 
       else {
-        // toastr de erro
+        this.toastrService.error(requisicaoLogin.mensagem);
       }
     }
     else {
-      // toastr de informações de login inválidas 
+      this.toastrService.warning('Campos digitados incorretamente');
     }
+  }
+
+  exibirSenha(): void {
+    this.exibeSenha = !this.exibeSenha;
   }
 
 }

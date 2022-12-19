@@ -1,5 +1,5 @@
 export interface ResponseBaseModel<T> {
-    Sucesso: boolean;
-    Mensagem: string;
-    Data: T,
+    sucesso: boolean;
+    mensagem: string;
+    data: T,
 }

@@ -1,4 +1,4 @@
-export interface LoginModel {
+export interface CadastroModel {
     usuarioId: number;
     tokenSessaoUsuario: String;
 }

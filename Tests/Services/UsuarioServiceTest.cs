@@ -20,12 +20,7 @@ public class UsuarioServiceTest: TestsSetup
     [Fact]
     public void CadastrarUsuario_EnviandoEmailInvalido_DeveRetornarEmailInvalido()
     {
-        var usuarioTeste = new UsuarioCadastroRequest
-        {
-            Email = "emailinvalido", 
-            Senha = "teste123",
-            ConfirmacaoSenha = "teste123"
-        };
+        var usuarioTeste = new UsuarioCadastroRequest("emailinvalido", "teste123", "teste123");
         
         var chamadaMetodo = Assert.Throws<Exception>(() => _usuarioService.CadastrarUsuario(usuarioTeste));
         
@@ -35,13 +30,8 @@ public class UsuarioServiceTest: TestsSetup
      [Fact]
      public void CadastrarUsuario_EnviandoEmailNulo_DeveRetornarEmailInvalido()
      {
-         var usuarioTeste = new UsuarioCadastroRequest
-         {
-             Email = "",
-             Senha = "teste",
-             ConfirmacaoSenha = "teste"
-         };
-         
+         var usuarioTeste = new UsuarioCadastroRequest("", "teste", "teste");
+
          var chamadaMetodo = Assert.Throws<Exception>(() => _usuarioService.CadastrarUsuario(usuarioTeste));
         
          Assert.Equal("Email em formato inválido", chamadaMetodo.Message);
@@ -50,12 +40,7 @@ public class UsuarioServiceTest: TestsSetup
      [Fact]
      public void CadastrarUsuario_EnviandoSenhaNula_DeveRetornarSenhaNula()
      {
-         var usuarioTeste = new UsuarioCadastroRequest
-         {
-             Email = "testeunitario@teste.com",
-             Senha = "",
-             ConfirmacaoSenha = ""
-         };
+         var usuarioTeste = new UsuarioCadastroRequest("testeunitario@teste.com", "", "");
          
          var chamadaMetodo = Assert.Throws<NullReferenceException>(() => _usuarioService.CadastrarUsuario(usuarioTeste));
         
@@ -65,13 +50,8 @@ public class UsuarioServiceTest: TestsSetup
      [Fact]
      public void CadastrarUsuario_EnviandoUsuarioJaExistente_DeveRetornarUsuarioExistente()
      {
-         var usuarioTeste = new UsuarioCadastroRequest
-         {
-             Email = "teste@teste.com",
-             Senha = "teste",
-             ConfirmacaoSenha = "teste"
-         };
-         
+         var usuarioTeste = new UsuarioCadastroRequest("teste@teste.com", "teste", "teste");
+
          AutenticacaoServiceMock.Setup(a => a.GerarSenhaHashMd5(usuarioTeste.Senha)).Returns("teste");
          UsuarioRepositoryMock.Setup(u => u.ConsultarUsuarioIdPorEmailESenha(usuarioTeste.Email, usuarioTeste.Senha)).Returns(10);
          
@@ -85,12 +65,7 @@ public class UsuarioServiceTest: TestsSetup
      [Fact]
      public void CadastrarUsuario_GerandoTokenNulo_ErroAoGerarToken()
      {
-         var usuarioTeste = new UsuarioCadastroRequest
-         {
-             Email = "teste@teste.com",
-             Senha = "teste",
-             ConfirmacaoSenha = "teste"
-         };
+         var usuarioTeste = new UsuarioCadastroRequest("teste@teste.com", "teste", "teste");
 
          UsuarioRepositoryMock.Setup(u => u.SalvarUsuario(It.IsAny<Usuario>())).Returns(10);
          AutenticacaoServiceMock.Setup(a => a.GerarSenhaHashMd5(usuarioTeste.Senha)).Returns("teste");
@@ -106,13 +81,9 @@ public class UsuarioServiceTest: TestsSetup
 
      [Fact]
      public void RealizarLogin_EnviandoEmailInvalido_DeveRetornarEmailInvalido()
-     {
-         var usuarioTeste = new UsuarioLoginRequest
-         {
-             Email = "emailinvalido", 
-             Senha = "teste123",
-         };
-         
+     {          
+         var usuarioTeste = new UsuarioLoginRequest("emailinvalido", "teste123");
+
          var chamadaMetodo = Assert.Throws<Exception>(() => _usuarioService.RealizarLogin(usuarioTeste));
         
          Assert.Equal("Email em formato inválido", chamadaMetodo.Message);
@@ -121,12 +92,8 @@ public class UsuarioServiceTest: TestsSetup
      [Fact]
      public void RealizarLogin_EnviandoEmailNulo_DeveRetornarEmailInvalido()
      {
-         var usuarioTeste = new UsuarioLoginRequest
-         {
-             Email = "emailinvalido", 
-             Senha = "teste123",
-         };
-         
+         var usuarioTeste = new UsuarioLoginRequest("", "teste123");
+
          var chamadaMetodo = Assert.Throws<Exception>(() => _usuarioService.RealizarLogin(usuarioTeste));
         
          Assert.Equal("Email em formato inválido", chamadaMetodo.Message);
@@ -136,12 +103,8 @@ public class UsuarioServiceTest: TestsSetup
      [Fact]
      public void RealizarLogin_EnviandoLoginInvalido_EmailOuSenhaInvalidos()
      {
-         var usuarioTeste = new UsuarioLoginRequest
-         {
-             Email = "teste@teste.com", 
-             Senha = "teste123",
-         };
-         
+         var usuarioTeste = new UsuarioLoginRequest("teste@teste.com", "teste123");
+
          UsuarioRepositoryMock.Setup(u => u.ConsultarUsuarioIdPorEmailESenha(usuarioTeste.Email, usuarioTeste.Senha)).Returns(0);
          
          var chamadaMetodo = Assert. Throws<NullReferenceException>(() => _usuarioService.RealizarLogin(usuarioTeste));
@@ -152,12 +115,8 @@ public class UsuarioServiceTest: TestsSetup
      [Fact]
      public void RealizarLogin_GerandoTokenNulo_ErroAoGerarToken()
      {
-         var usuarioTeste = new UsuarioLoginRequest
-         {
-             Email = "teste@teste.com", 
-             Senha = "teste123",
-         };
-
+         var usuarioTeste = new UsuarioLoginRequest("teste@teste.com", "teste123");
+         
          AutenticacaoServiceMock.Setup(a => a.GerarSenhaHashMd5(usuarioTeste.Senha)).Returns("teste");
          UsuarioRepositoryMock.Setup(u => u.ConsultarUsuarioIdPorEmailESenha(usuarioTeste.Email, "teste")).Returns(10);
          AutenticacaoServiceMock.Setup(u => u.GerarTokenSessao(usuarioTeste.Email, It.IsAny<string>())).Returns(string.Empty);
