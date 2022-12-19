@@ -4,13 +4,13 @@ namespace Application.Objects.Bases;
 
 public class ResponseBase
 {
-    public static JsonResult ResponderController(bool sucessoOperacao, string msg, object dataOperacao)
+    public static JsonResult ResponderController(bool sucessoOperacao, string msg, object? dataOperacao = null)
     {
         return BigJson(new
         {
-            sucesso = sucessoOperacao,
-            mensagem = msg,
-            data = dataOperacao,
+            Sucesso = sucessoOperacao,
+            Mensagem = msg,
+            Data = dataOperacao,
         });
     }
     

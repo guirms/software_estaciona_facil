@@ -16,7 +16,7 @@ public class TestsSetup
     #region Mock Repositórios
 
     protected readonly Mock<IUsuarioRepository> UsuarioRepositoryMock;
-    protected readonly Mock<ITokenService> TokenServiceMock;
+    protected readonly Mock<IAutenticacaoService> AutenticacaoServiceMock;
 
     #endregion
 
@@ -28,6 +28,6 @@ public class TestsSetup
         AutoMapperMock = new Mapper(configuration);
         
         UsuarioRepositoryMock = new Mock<IUsuarioRepository>();
-        TokenServiceMock = new Mock<ITokenService>();
+        AutenticacaoServiceMock = new Mock<IAutenticacaoService>();
     }
 }
