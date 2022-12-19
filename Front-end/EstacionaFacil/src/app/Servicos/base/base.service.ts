@@ -43,9 +43,12 @@ export class BaseService<T> {
     }
   }
 
-  setarToken(tokenSessaoUsuario: string): void {
-    localStorage.setItem('tokenSessao', tokenSessaoUsuario);
-    this.tokenAutorizacao = tokenSessaoUsuario ? tokenSessaoUsuario : undefined;
+  setarToken(tokenSessaoUsuario?: string): void {
+    if (tokenSessaoUsuario) {
+      localStorage.setItem('tokenSessao', tokenSessaoUsuario);
+      this.tokenAutorizacao = tokenSessaoUsuario ? tokenSessaoUsuario : undefined;
+    }
+
   }
 
   setarExibeLoad(estadoLoad: boolean): void {

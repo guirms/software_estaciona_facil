@@ -21,14 +21,21 @@ export class LoginService {
 
     this.baseService.setarExibeLoad(true);
 
-    const requisicaoLogin = await lastValueFrom(this.baseService.post(`${environment.url}Usuario/RealizarLogin`, body))
+    let requisicaoLogin = await lastValueFrom(this.baseService.post(`${environment.url}Usuario/RealizarLogin`, body))
       .catch(ex => {
         return ex.message;
       });
 
+    if (typeof(requisicaoLogin) === 'string') {
+      requisicaoLogin = undefined;
+      requisicaoLogin = {
+        mensagem: 'Erro durante requisição HTTP'
+      }
+    }
+
     this.baseService.setarExibeLoad(false);
 
-    this.baseService.setarToken(requisicaoLogin?.data?.tokenSessaoUsuario ?? '');
+    this.baseService.setarToken(requisicaoLogin?.data?.tokenSessaoUsuario);
 
     return requisicaoLogin;
   }

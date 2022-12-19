@@ -17,6 +17,7 @@ export class TelaLoginComponent implements OnInit {
   email!: string;
   senha!: string;
   lembrarSenha!: boolean;
+  exibeSenha!: boolean;
 
   constructor(private formBuilder: FormBuilder,
     private loginService: LoginService,
@@ -29,7 +30,7 @@ export class TelaLoginComponent implements OnInit {
       id: [''],
       email: ['', [Validators.required, Validators.email]],
       senha: ['', [Validators.required]],
-      lembrarSenha: ['', []]
+      lembrarSenha: ['', []],
     });
   }
 
@@ -47,6 +48,10 @@ export class TelaLoginComponent implements OnInit {
     else {
       this.toastrService.warning('Campos digitados incorretamente');
     }
+  }
+
+  exibirSenha(): void {
+    this.exibeSenha = !this.exibeSenha;
   }
 
 }
